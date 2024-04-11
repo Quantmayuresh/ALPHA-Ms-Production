@@ -1,0 +1,356 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-10-19 15:45:24.337024",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "customer_name",
+  "order_type",
+  "order_no",
+  "column_break1",
+  "posting_date",
+  "posting_time",
+  "column_break2",
+  "company",
+  "is_return",
+  "return_against",
+  "amended_from",
+  "challan_details_section",
+  "challan_no",
+  "challan_date",
+  "column_break_vcy2y",
+  "gate_no",
+  "accounting_dimensions_section",
+  "cost_center",
+  "dimension_column_break",
+  "project",
+  "item_section_break",
+  "set_warehouse",
+  "items",
+  "raw_items",
+  "set_from_warehouse",
+  "return_items",
+  "return_raw_items_details",
+  "section_break_ffpl5",
+  "finished_item_total_quantity",
+  "column_break_cdg9l",
+  "raw_item_total_quantity",
+  "section_break1",
+  "address_and_contact",
+  "section_addresses",
+  "customer_address",
+  "address_display",
+  "col_break_address",
+  "contact_person",
+  "contact_display",
+  "contact_mobile",
+  "contact_email",
+  "naming_data"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "JBW/.MM./.###.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Posting Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.order_no==null;",
+   "fieldname": "is_return",
+   "fieldtype": "Check",
+   "label": "Is Return"
+  },
+  {
+   "depends_on": "eval:doc.is_return==1;",
+   "fieldname": "return_against",
+   "fieldtype": "Table MultiSelect",
+   "label": "Return Against Job Work Receipt",
+   "options": "Job Work Receipt Multi Select"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Job Work Receipt",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "accounting_dimensions_section",
+   "fieldtype": "Section Break",
+   "label": "Accounting Dimensions"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "dimension_column_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "item_section_break",
+   "fieldtype": "Section Break",
+   "label": "Item"
+  },
+  {
+   "depends_on": "eval:doc.is_return==0;",
+   "fieldname": "set_warehouse",
+   "fieldtype": "Link",
+   "label": "Accepted Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "depends_on": "eval:doc.is_return==1;",
+   "fieldname": "set_from_warehouse",
+   "fieldtype": "Link",
+   "label": "Set From Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "section_break1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "address_and_contact",
+   "fieldtype": "Tab Break",
+   "label": "Address & Contact"
+  },
+  {
+   "fieldname": "section_addresses",
+   "fieldtype": "Section Break",
+   "label": "Supplier Address"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "address_display",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "col_break_address",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Link",
+   "label": "Contact Person",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "contact_display",
+   "fieldtype": "Small Text",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "contact_mobile",
+   "fieldtype": "Small Text",
+   "label": "Mobile No"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Small Text",
+   "label": "Contact Email",
+   "options": "Email"
+  },
+  {
+   "depends_on": "eval:doc.is_return==0;",
+   "fieldname": "order_type",
+   "fieldtype": "Link",
+   "label": "Order Type",
+   "options": "DocType"
+  },
+  {
+   "depends_on": "eval:doc.is_return==0;",
+   "fieldname": "order_no",
+   "fieldtype": "Dynamic Link",
+   "label": "Order NO",
+   "options": "order_type"
+  },
+  {
+   "depends_on": "eval:doc.is_return==0;",
+   "fieldname": "raw_items",
+   "fieldtype": "Table",
+   "label": "Raw Items",
+   "options": "Job Work Receipt Raw Item"
+  },
+  {
+   "depends_on": "eval:doc.is_return==0;",
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Job Work Receipt Item"
+  },
+  {
+   "depends_on": "eval:doc.is_return==1;",
+   "fieldname": "return_items",
+   "fieldtype": "Table",
+   "label": "Return Items",
+   "options": "Return Job Work Receipt Item"
+  },
+  {
+   "fieldname": "challan_details_section",
+   "fieldtype": "Section Break",
+   "label": "Challan Details"
+  },
+  {
+   "fieldname": "challan_no",
+   "fieldtype": "Data",
+   "label": "Challan No"
+  },
+  {
+   "fieldname": "challan_date",
+   "fieldtype": "Date",
+   "label": "Challan Date"
+  },
+  {
+   "fieldname": "column_break_vcy2y",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gate_no",
+   "fieldtype": "Data",
+   "label": "Gate No"
+  },
+  {
+   "depends_on": "eval:doc.is_return==1;",
+   "fieldname": "return_raw_items_details",
+   "fieldtype": "Table",
+   "label": "Return Raw Items Details",
+   "options": "Job Work Receipt Rejected Items Reasons"
+  },
+  {
+   "fieldname": "finished_item_total_quantity",
+   "fieldtype": "Float",
+   "label": "Finished Item Total Quantity"
+  },
+  {
+   "fieldname": "raw_item_total_quantity",
+   "fieldtype": "Float",
+   "label": "Raw Item Total Quantity"
+  },
+  {
+   "fieldname": "section_break_ffpl5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_cdg9l",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_data",
+   "fieldtype": "Small Text",
+   "label": "Naming data"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "job_work_receipt"
+  },
+  {
+   "link_doctype": "Delivery Note",
+   "link_fieldname": "custom_job_work_receipt"
+  }
+ ],
+ "modified": "2024-04-04 17:17:35.212476",
+ "modified_by": "Administrator",
+ "module": "Ms Production",
+ "name": "Job Work Receipt",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "naming_data",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
