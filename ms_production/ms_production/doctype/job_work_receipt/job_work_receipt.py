@@ -107,6 +107,7 @@ class JobWorkReceipt(Document):
 			se = frappe.new_doc("Stock Entry")
 			se.stock_entry_type = "Material Receipt"
 			se.company = self.company
+			se.set_posting_time = True
 			se.posting_date = self.posting_date
 			se.posting_time = self.posting_time
 			for p in self.get("items"):
