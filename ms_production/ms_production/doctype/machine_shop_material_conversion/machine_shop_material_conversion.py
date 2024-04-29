@@ -86,6 +86,7 @@ class MachineShopMaterialConversion(Document):
 		doc = frappe.new_doc("Stock Entry")
 		doc.stock_entry_type = "Manufacture"
 		doc.company = self.company
+		doc.set_posting_time = True
 		doc.posting_date =self.posting_date
 
 		for i in self.get("input_material"):

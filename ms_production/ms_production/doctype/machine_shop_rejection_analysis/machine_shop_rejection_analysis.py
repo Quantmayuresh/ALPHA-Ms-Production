@@ -151,6 +151,7 @@ class MachineShopRejectionAnalysis(Document):
 				doc = frappe.new_doc("Stock Entry")
 				doc.stock_entry_type = "Manufacture"
 				doc.company = self.company
+				doc.set_posting_time = True
 				doc.posting_date = self.posting_date
 				doc.append("items", {
 					"s_warehouse": i.source_warehouse,
@@ -177,6 +178,7 @@ class MachineShopRejectionAnalysis(Document):
 	# 	doc = frappe.new_doc("Stock Entry")
 	# 	doc.stock_entry_type = "Manufacture"
 	# 	doc.company = self.company
+	# 	doc.set_posting_time = True
 	# 	doc.posting_date = self.posting_date
 		
 	# 	scrap_found = False  # Initialize flag

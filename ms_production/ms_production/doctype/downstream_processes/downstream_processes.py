@@ -486,6 +486,7 @@ class DownstreamProcesses(Document):
 # 			se = frappe.new_doc("Stock Entry")
 # 			se.stock_entry_type = "Manufacture"
 # 			se.company = self.company
+			# se.set_posting_time = True
 # 			se.posting_date = self.date
 # 			peacock = len(self.get("raw_items"))
 # 			for g in self.get("raw_items"):
@@ -532,6 +533,7 @@ class DownstreamProcesses(Document):
 # 		se = frappe.new_doc("Stock Entry")
 # 		se.stock_entry_type = "Material Transfer"
 # 		se.company = self.company
+# 		se.set_posting_time = True
 # 		se.posting_date = self.date
 # 		peahen = len(self.get("raw_items"))
 # 		for p in self.get("items"):

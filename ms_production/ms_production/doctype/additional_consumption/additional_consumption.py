@@ -134,6 +134,7 @@ class AdditionalConsumption(Document):
 		se = frappe.new_doc("Stock Entry")
 		se.stock_entry_type = "Material Issue"
 		se.company = self.company
+		se.set_posting_time = True
 		se.posting_date = self.date
 		for g in self.get("consumption_table"):
 			se.append(
@@ -158,6 +159,7 @@ class AdditionalConsumption(Document):
 		se = frappe.new_doc("Stock Entry")
 		se.stock_entry_type = "Additional Consumption"
 		se.company = self.company
+		se.set_posting_time = True
 		se.posting_date = self.date
 		for i in self.get("items_table"):
 			se.append(

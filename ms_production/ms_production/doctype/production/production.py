@@ -79,6 +79,7 @@ class Production(Document):
         	"items": items,
 			"set_posting_time":True ,
 			'posting_date':self.date,
+			'posting_time':self.posting_time,
 			"production_entry": self.name,
 			"company":self.company,
         	})
@@ -135,7 +136,7 @@ class Production(Document):
 					)
 
 
-			stock_entry = frappe.get_doc({"doctype": "Stock Entry","stock_entry_type": "Manufacture","set_posting_time":True ,'posting_date':self.date,"items": items,"additional_costs":additional_costs,"production_entry": self.name,"company":self.company,})
+			stock_entry = frappe.get_doc({"doctype": "Stock Entry","stock_entry_type": "Manufacture","set_posting_time":True ,'posting_date':self.date,'posting_time':self.posting_time,"items": items,"additional_costs":additional_costs,"production_entry": self.name,"company":self.company,})
 		
 
 			stock_entry.insert()
@@ -660,7 +661,7 @@ class Production(Document):
 				if d.time:
 					total_time = total_time + d.time
 		if self.remaining_reasonable_time and total_time:
-			self.remaining_reasonable_time = self.remaining_reasonable_time - total_time
+			self.remaining_reasonable_time = self.time_difference - total_time
 
     
 	@frappe.whitelist()
