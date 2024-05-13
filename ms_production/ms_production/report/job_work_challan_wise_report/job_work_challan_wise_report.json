@@ -1,0 +1,58 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2024-04-27 17:47:59.542186",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "mandatory": 1,
+   "options": "Company",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "",
+ "modified": "2024-04-30 18:37:17.674432",
+ "modified_by": "Administrator",
+ "module": "Ms Production",
+ "name": "Job Work Challan wise Report",
+ "owner": "mayuresh.bhosale@erpdata.in",
+ "prepared_report": 0,
+ "query": "select \n    j.name 'ID', r.finished_item_code 'Finished Item Code', \n    r.raw_item_code 'Raw Item Code', r.required_qty 'Required Qty',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.item_code  ELSE 0 END AS 'Item Code',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.item_name  ELSE 0 END AS 'Item Name',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.as_it_is  ELSE 0 END AS 'As It Is',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.cr_rejection  ELSE 0 END AS 'CR Rejection',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.mr_rejection  ELSE 0 END AS 'MR Rejection',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.other_rejection  ELSE 0 END AS 'Other Rejection',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.return_quantity  ELSE 0 END AS 'Return Quantity',\n    CASE WHEN j.is_return = '1' AND j.name = i.challan_reference THEN i.total_quantity  ELSE 0 END AS 'Total Quantity',\n    # j.customer 'Customer ID', j.customer_name 'Customer Name',\n    j.company 'Company'\nFROM\n    `tabJob Work Receipt` j\n\nLEFT JOIN\n    `tabJob Work Receipt Raw Item` r ON j.name = r.parent\nLEFT JOIN\n    `tabReturn Job Work Receipt Item` i ON j.name = i.parent\nWHERE\n    j.docstatus = '1'\n    # AND j.is_return = '1'\n    AND j.posting_date BETWEEN %(from_date)s AND %(to_date)s\n    AND j.company = %(company)s\nGROUP BY\n    j.name",
+ "ref_doctype": "Production",
+ "reference_report": "",
+ "report_name": "Job Work Challan wise Report",
+ "report_script": "",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}

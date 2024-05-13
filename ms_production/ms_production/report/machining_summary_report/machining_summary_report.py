@@ -49,29 +49,31 @@ def add_column(fieldname,fieldtype,label,link_doc=None,uom_status=False, uom=Non
  
 
 def get_columns(filters):
-    column_list = []
-    uom_status, uom = get_uom_status(filters)
-    column_list.extend(add_column("item_code","Link","Item","Item"))
-    column_list.extend(add_column("item_name", "Data", "Item Name"))
-    column_list.extend(add_column("opening_stock", "Float", "Opening Stock",None, uom_status, uom))
-    column_list.extend(add_column("purchase_inward", "Float", "Purchase Inward",None, uom_status, uom))
-    column_list.extend(add_column("job_work_inward", "Float", "Job Work Inward",None, uom_status, uom))
-    column_list.extend(add_column("scheduled_qty", "Float", "Scheduled Qty",None, uom_status, uom))
-    column_list.extend(add_column("scheduled_percentage", "Float", "% Compliance with Sch"))
-    column_list.extend(add_column("ok_qty", "Float", "OK Produced Qty",None, uom_status, uom))
-    column_list.extend(add_column("ok_qty_per", "Float", "OK Produced Qty In %"))
-    column_list.extend(add_column("cr_qty", "Float", "CR Qty",None, uom_status, uom))
-    column_list.extend(add_column("cr_per", "Float", "CR In %"))
-    column_list.extend(add_column("mr_qty", "Float", "MR Qty",None, uom_status, uom))
-    column_list.extend(add_column("mr_per", "Float", "MR In %"))
-    column_list.extend(add_column("rw_qty", "Float", "RW Qty",None, uom_status, uom))
-    column_list.extend(add_column("rw_per", "Float", "RW In %"))
-    column_list.extend(add_column("total_rejection", "Float", "Total Rejection",None,uom_status, uom))
-    column_list.extend(add_column("total_qty", "Float", "Total Quantity",None, uom_status, uom))
-    column_list.extend(add_column("delivery_qty", "Float", "Delivered Qty",None, uom_status, uom))
-    column_list.extend(add_column("sales_qty", "Float", "Sales Qty",None, uom_status, uom))
-    column_list.extend(add_column("closing_bal", "Float", "Closing Balance",None, uom_status, uom))
-    return column_list
+	column_list = []
+	uom_status, uom = get_uom_status(filters)
+	column_list.extend(add_column("item_code","Link","Item","Item"))
+	column_list.extend(add_column("item_name", "Data", "Item Name"))
+	column_list.extend(add_column("opening_stock", "Float", "Opening Stock",None, uom_status, uom))
+	column_list.extend(add_column("purchase_inward", "Float", "Purchase Inward",None, uom_status, uom))
+	column_list.extend(add_column("job_work_inward", "Float", "Job Work Inward",None, uom_status, uom))
+	column_list.extend(add_column("scheduled_qty", "Float", "Scheduled Qty",None, uom_status, uom))
+	column_list.extend(add_column("scheduled_percentage", "Float", "% Compliance with Sch"))
+	column_list.extend(add_column("ok_qty", "Float", "OK Produced Qty",None, uom_status, uom))
+	column_list.extend(add_column("ok_qty_per", "Float", "OK Produced Qty In %"))
+	column_list.extend(add_column("cr_qty", "Float", "CR Qty",None, uom_status, uom))
+	column_list.extend(add_column("cr_per", "Float", "CR In %"))
+	column_list.extend(add_column("mr_qty", "Float", "MR Qty",None, uom_status, uom))
+	column_list.extend(add_column("mr_per", "Float", "MR In %"))
+	column_list.extend(add_column("rw_qty", "Float", "RW Qty",None, uom_status, uom))
+	column_list.extend(add_column("rw_per", "Float", "RW In %"))
+	column_list.extend(add_column("total_rejection", "Float", "Total Rejection",None,uom_status, uom))
+	column_list.extend(add_column("total_qty", "Float", "Total Quantity",None, uom_status, uom))
+	column_list.extend(add_column("delivery_qty", "Float", "Delivered Qty",None, uom_status, uom))
+	column_list.extend(add_column("sales_qty", "Float", "Sales Qty",None, uom_status, uom))
+	column_list.extend(add_column("bal_avl_for_prod", "Float", "Balance Available For Production",None, uom_status, uom))
+	column_list.extend(add_column("value_addition", "Float", "Value Addition"))
+	column_list.extend(add_column("closing_bal", "Float", "Closing Balance",None, uom_status, uom))
+	return column_list
 
 
 
@@ -196,7 +198,20 @@ def get_data(filters):
 			temp="Closing Balance In "+str(uom)
 			item_dict[temp]=get_uom_qty(i,item_dict['closing_bal'],uom)
 
+		item_dict['bal_avl_for_prod'] = (item_dict['opening_stock'] + item_dict['purchase_inward'] + item_dict['job_work_inward']) - (item_dict['total_rejection']+ item_dict['delivery_qty'])
+		item_dict["Balance Available For Production In "+str(uom)]=get_uom_qty(i,item_dict['bal_avl_for_prod'],uom)
+
+
+		additional_expense_item_filter = {"finished_item_code":i , 'amount':['>',0]}
+		additional_expense_filter = {**additional_expense_item_filter , **production_id_filter}
+		production_additional_cost_details = frappe.get_all("Production Additional Cost Details",fields = ['amount'],filters = additional_expense_filter)
+		additional_cost = 0
+		for g in production_additional_cost_details:
+			additional_cost = additional_cost + g.amount
+		item_dict['value_addition']= additional_cost
+
 		result_list.append(item_dict)
+  
 	return result_list 
 
 

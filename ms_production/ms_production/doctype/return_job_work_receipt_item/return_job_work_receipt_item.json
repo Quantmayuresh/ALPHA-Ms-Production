@@ -29,7 +29,8 @@
   "source_warehouse",
   "column_break_tahgt",
   "available_quantity",
-  "reference_id"
+  "reference_id",
+  "is_fetched"
  ],
  "fields": [
   {
@@ -148,11 +149,19 @@
    "fieldname": "total_quantity",
    "fieldtype": "Float",
    "label": "Total Quantity"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_fetched",
+   "fieldtype": "Check",
+   "label": "Is_Fetched",
+   "read_only": 1
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2024-04-04 17:25:50.151952",
+ "modified": "2024-05-03 14:12:27.742926",
  "modified_by": "Administrator",
  "module": "Ms Production",
  "name": "Return Job Work Receipt Item",

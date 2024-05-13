@@ -9,7 +9,7 @@
       "label": "Downstream Processs"
      }
     ],
-    "content": "[{\"id\":\"B_TczgYiXo\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Downstream Processs Employee\",\"col\":6}},{\"id\":\"sfYZ6QLvMt\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Downstream Processs\",\"col\":6}},{\"id\":\"PGkVaXLmTi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MS Productions</span>\",\"col\":12}},{\"id\":\"DhcIvTr9pF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"id\":\"q7CptIoXmn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"xkbmYMyvH3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Schedule\",\"col\":3}},{\"id\":\"kzglGYz-z0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"Sv12JU8iN5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Machine\",\"col\":3}},{\"id\":\"JPNXIhCTYW\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_ecAoTPVWK\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"thV24bK-EP\",\"type\":\"card\",\"data\":{\"card_name\":\"Transaction\",\"col\":4}},{\"id\":\"0RNwQUa6f0\",\"type\":\"card\",\"data\":{\"card_name\":\"Machine Shop setting\",\"col\":4}},{\"id\":\"4FJXDUrjlf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report Section</b></span>\",\"col\":12}},{\"id\":\"J6oKo6l2b4\",\"type\":\"card\",\"data\":{\"card_name\":\"Production Reports\",\"col\":4}},{\"id\":\"wB-mDOxz_R\",\"type\":\"card\",\"data\":{\"card_name\":\"MS Production Reports\",\"col\":4}}]",
+    "content": "[{\"id\":\"B_TczgYiXo\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Downstream Processs Employee\",\"col\":6}},{\"id\":\"sfYZ6QLvMt\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Downstream Processs\",\"col\":6}},{\"id\":\"PGkVaXLmTi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MS Productions</span>\",\"col\":12}},{\"id\":\"DhcIvTr9pF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard\",\"col\":3}},{\"id\":\"q7CptIoXmn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"xkbmYMyvH3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Schedule\",\"col\":3}},{\"id\":\"kzglGYz-z0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"Sv12JU8iN5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Machine\",\"col\":3}},{\"id\":\"JPNXIhCTYW\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_ecAoTPVWK\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"mq9RPeGpBX\",\"type\":\"card\",\"data\":{\"card_name\":\"Transactions\",\"col\":4}},{\"id\":\"0RNwQUa6f0\",\"type\":\"card\",\"data\":{\"card_name\":\"Machine Shop setting\",\"col\":4}},{\"id\":\"4FJXDUrjlf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report Section</b></span>\",\"col\":12}},{\"id\":\"J6oKo6l2b4\",\"type\":\"card\",\"data\":{\"card_name\":\"Production Reports\",\"col\":4}}]",
     "creation": "2023-07-14 16:33:05.040705",
     "custom_blocks": [],
     "docstatus": 0,
@@ -120,8 +120,59 @@
      {
       "hidden": 0,
       "is_query_report": 0,
+      "label": "Stock Entry",
+      "link_count": 0,
+      "link_to": "Stock Entry",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Job Work Receipt",
+      "link_count": 0,
+      "link_to": "Job Work Receipt",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Machining Schedule",
+      "link_count": 0,
+      "link_to": "Machining Schedule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Mshop Casting Conversion",
+      "link_count": 0,
+      "link_to": "Machine Shop Material Conversion",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "CUST/SUB Rej Analyasis",
+      "link_count": 0,
+      "link_to": "Machine Shop Rejection Analysis",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 0,
       "label": "Production Reports",
-      "link_count": 7,
+      "link_count": 4,
+      "link_type": "DocType",
       "onboard": 0,
       "type": "Card Break"
      },
@@ -149,9 +200,30 @@
      },
      {
       "hidden": 0,
+      "is_query_report": 1,
+      "label": "Operator Wise Production Details",
+      "link_count": 0,
+      "link_to": "Operator Wise Production Details",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Machineshop Production Downtime Analysis",
+      "link_count": 0,
+      "link_to": "Machineshop Production Downtime Analysis",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+     },
+     {
+      "hidden": 0,
       "is_query_report": 0,
-      "label": "Transaction",
-      "link_count": 7,
+      "label": "Transactions",
+      "link_count": 9,
+      "link_type": "DocType",
       "onboard": 0,
       "type": "Card Break"
      },
@@ -228,204 +300,25 @@
      {
       "hidden": 0,
       "is_query_report": 0,
-      "label": "MS Production Reports",
-      "link_count": 19,
+      "label": "Machine Shop Material Conversion",
+      "link_count": 0,
+      "link_to": "Machine Shop Material Conversion",
       "link_type": "DocType",
       "onboard": 0,
-      "type": "Card Break"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Downtime Analytics",
-      "link_count": 0,
-      "link_to": "Downtime Analytics",
-      "link_type": "Report",
-      "onboard": 0,
       "type": "Link"
      },
      {
       "hidden": 0,
       "is_query_report": 0,
-      "label": "Production Entry Analytics",
+      "label": "Machine Shop Rejection Analysis",
       "link_count": 0,
-      "link_to": "Production Entry Analytics",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Machine Shop OEE",
-      "link_count": 0,
-      "link_to": "Machine Shop OEE",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "OEE Report",
-      "link_count": 0,
-      "link_to": "OEE Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Machining Summary Report",
-      "link_count": 0,
-      "link_to": "Machining Summary Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Tool Usage Or Consumable Report Per Machine",
-      "link_count": 0,
-      "link_to": "Tool Usage Or Consumable Report Per Machine",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Material Cycle Time With Downstream",
-      "link_count": 0,
-      "link_to": "Material Cycle Time With Downstream",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Itemwise Production",
-      "link_count": 0,
-      "link_to": "Itemwise Production",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Shift Wise Job Report",
-      "link_count": 0,
-      "link_to": "Shift Wise Job Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Consumption Report",
-      "link_count": 0,
-      "link_to": "Consumption Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Machine Wise Consumption Report",
-      "link_count": 0,
-      "link_to": "Machine Wise Consumption Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Downtime",
-      "link_count": 0,
-      "link_to": "Downtime",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Operator Wise Analysis",
-      "link_count": 0,
-      "link_to": "Operator Wise Analysis",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Supervisor Wise Analysis",
-      "link_count": 0,
-      "link_to": "Supervisor Wise Analysis",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Material Cycle Time",
-      "link_count": 0,
-      "link_to": "Material Cycle Time",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Employee wages Report",
-      "link_count": 0,
-      "link_to": "Employee wages Report",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Rejection Report With Date Range",
-      "link_count": 0,
-      "link_to": "Rejection Report With Date Range",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Machining Analysis",
-      "link_count": 0,
-      "link_to": "Machining Analysis",
-      "link_type": "Report",
-      "onboard": 0,
-      "type": "Link"
-     },
-     {
-      "hidden": 0,
-      "is_query_report": 0,
-      "label": "Rejection Analysis",
-      "link_count": 0,
-      "link_to": "Rejection Analysis",
-      "link_type": "Report",
+      "link_to": "Machine Shop Rejection Analysis",
+      "link_type": "DocType",
       "onboard": 0,
       "type": "Link"
      }
     ],
-    "modified": "2024-04-15 16:39:25.762260",
+    "modified": "2024-05-06 16:18:01.524857",
     "modified_by": "mayuresh.bhosale@erpdata.in",
     "module": "Ms Production",
     "name": "MS Productions",

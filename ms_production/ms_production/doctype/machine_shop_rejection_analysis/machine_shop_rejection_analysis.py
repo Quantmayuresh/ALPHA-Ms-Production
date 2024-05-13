@@ -12,9 +12,9 @@ class MachineShopRejectionAnalysis(Document):
 			# frappe.msgprint(str(i.outsourcing_job_work))
 
 			child_data=frappe.get_all("IN Rejected Items Reasons Subcontracting",filters={"parent":i.outsourcing_job_work},
-							fields=["rejection_reason","name","rejection_type","raw_item_code","raw_item_name","quantity",
-								"reference_id","weight_per_unit","total_rejected_weight"])
-			
+							fields=["rejection_reason","name","rejection_type","raw_item_code","raw_item_name","quantity","target_warehouse",
+						 		"reference_id","weight_per_unit","total_rejected_weight"])
+	 		
 			if(child_data):
 				for j in child_data:
 					count=0
@@ -31,10 +31,10 @@ class MachineShopRejectionAnalysis(Document):
 									'item_code':j.raw_item_code,
 
 									'item_name': j.raw_item_name,
-									# 'target_warehouse':j.target_warehouse,
+									'source_warehouse':j.target_warehouse,
 
 									'quantity': j.quantity,
-									'reference_id':j.reference_id,
+									'reference_id':i.outsourcing_job_work,
 
 									'weight_per_unit': j.weight_per_unit,
 									'total_rejected_weight':j.total_rejected_weight,
@@ -133,6 +133,7 @@ class MachineShopRejectionAnalysis(Document):
 					
 					if scrap_item.scrap_item_code:
 						i.target_warehouse_item = scrap_item.scrap_item_code
+						i.scrap_item_name = scrap_item.scrap_item_name
 					else:
 						frappe.throw("Update Grade Master For Scrap Item")
 				else:

@@ -19,10 +19,12 @@
   "item_name",
   "column_break_qiran",
   "source_warehouse",
-  "column_break_zrytv",
   "target_warehouse",
+  "column_break_zrytv",
   "target_warehouse_item",
+  "scrap_item_name",
   "section_break_g8yuf",
+  "sales_invoice_ref_id",
   "quantity",
   "column_break_cntnj",
   "weight_per_unit",
@@ -35,8 +37,7 @@
   "reference_id",
   "column_break_roygn",
   "delivery_note_ref_id",
-  "column_break_uzp9y",
-  "sales_invoice_ref_id"
+  "column_break_uzp9y"
  ],
  "fields": [
   {
@@ -70,7 +71,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Rejection Type",
-   "options": "CR (Casting Rejection)\nMR (Machine Rejection)\nRW (Rework)",
+   "options": "CR (Casting Rejection)\nMR (Machine Rejection)\nRW (Rework)\nAS IT IS (AS IT AS)",
    "reqd": 1
   },
   {
@@ -202,12 +203,18 @@
    "in_list_view": 1,
    "label": "Sales Invoice Ref ID",
    "options": "Sales Invoice"
+  },
+  {
+   "fetch_from": "target_warehouse_item.item_name",
+   "fieldname": "scrap_item_name",
+   "fieldtype": "Data",
+   "label": "Scrap Item Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-03-09 14:19:43.861021",
+ "modified": "2024-05-07 16:59:44.773028",
  "modified_by": "Administrator",
  "module": "Ms Production",
  "name": "Machine Shop Rejection Details",

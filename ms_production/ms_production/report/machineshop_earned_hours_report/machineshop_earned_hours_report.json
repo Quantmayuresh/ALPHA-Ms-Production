@@ -1,0 +1,58 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2024-05-06 17:41:56.055092",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "ALPHA FOUNDERS PVT LTD",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "mandatory": 1,
+   "options": "Company",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "",
+ "modified": "2024-05-06 17:41:56.055092",
+ "modified_by": "Administrator",
+ "module": "Ms Production",
+ "name": "Machineshop Earned Hours Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select\np.name as 'ID',\n    p.operator_name AS 'Operator Name',\n    q.operation_name AS 'Operation Name',\n    p.supervisor_name 'Supervisor Name',\n    p.shift_time AS 'Shift Time',\n    q.finished_item_name AS 'Finished Item Name',\n    q.machine AS 'Machine',\n    SUM(q.earned_min) AS 'Earned Min',\n    SUM(q.ok_qty) AS 'OK QTY',\n    (SUM(q.ok_qty) * x.value_per_unit) AS 'OK Weight',\n    SUM(q.cr_qty) AS 'CR QTY',\n    (SUM(q.cr_qty) * x.value_per_unit) AS 'CR Weight',\n    SUM(q.mr_qty) AS 'MR QTY', \n    (SUM(q.mr_qty) * x.value_per_unit) AS 'MR Weight',\n    SUM(q.rw_qty) AS 'RW QTY', \n    (SUM(q.rw_qty) * x.value_per_unit) AS 'RW Weight',\n    SUM(q.total_qty) AS 'Total QTY',\n    (SUM(q.total_qty) * x.value_per_unit) AS 'Total Weight',\n    #p.required_time AS 'Required Time',\n    SUM((SELECT SUM(d.time) FROM `tabDowntime Reason Details` d WHERE d.parent = p.name)) AS 'Down Time',\n    x.value_per_unit AS 'Weight Per Unit',\n    p.operator AS 'Operator ID',\n    q.operation AS 'Operation ID',\n    p.supervisor 'Supervisor ID',\n    q.item AS 'Finished Item',\n    p.company AS 'Company'\nFROM\n    `tabProduction` p\nLEFT JOIN\n    `tabQty Details` q ON p.name = q.parent\nLEFT JOIN\n        (select \n            qty.parent 'parent', \n            i.name, \n            pu.value_per_unit \n            # AS 'Value Per Unit'\n        FROM\n            `tabItem` i\n        LEFT JOIN \n            `tabProduction UOM Definition` pu ON i.name = pu.parent\n        LEFT JOIN\n            `tabQty Details` qty ON i.name = qty.item) x ON p.name = x.parent AND q.item = x.name\nWHERE\n    p.docstatus = '1' \n    AND p.date BETWEEN %(from_date)s AND %(to_date)s\n    AND p.company = %(company)s\nGROUP BY\n    q.item,\n    q.machine,\n    p.operator,\n    p.operator_name",
+ "ref_doctype": "Production",
+ "reference_report": "",
+ "report_name": "Machineshop Earned Hours Report",
+ "report_script": "select\n   p.operator AS 'Operator ID',\n   p.operator_name AS 'Operator Name',\n   p.required_time AS 'Required Time',\n   p.company AS 'Company',\n   q.item AS 'Finished Item', \n   q.finished_item_name AS 'Finished Item Name', \n   SUM(q.ok_qty) AS 'OK QTY', \n   SUM(q.cr_qty) AS 'CR QTY', \n   SUM(q.mr_qty) AS 'MR QTY', \n   SUM(q.rw_qty) AS 'RW QTY', \n   SUM(q.total_qty) AS 'Total QTY', \n   q.machine AS 'Machine',\n   SUM(d.time) AS 'Time'\nFROM\n    `tabProduction` p\nLEFT JOIN\n    `tabQty Details` q ON p.name = q.parent\nLEFT JOIN\n    `tabDowntime Reason Details` d ON p.name = d.parent\nWHERE\n    p.docstatus = '1' \n    AND p.date BETWEEN %(from_date)s AND %(to_date)s\n    AND p.company = %(company)s\nGROUP BY\n    q.item,\n    q.machine\n    ",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}

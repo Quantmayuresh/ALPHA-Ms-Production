@@ -82,9 +82,13 @@ class MachiningSchedule(Document):
 		machining_schedule_details = self.get("machining_schedule_details")
 		for d in machining_schedule_details:
 			booked = self.calculating_total_weight("item_machining_schedule" ,str(d.machine_type.lower()))
-			d.booked = ((booked/60)/4)/22.50
-			if d.booked and d.total_working_days:
-				d.percentage=(d.booked/d.total_working_days)*100
+			# frappe.msgprint(str(d.machine_type))
+			nos_list = frappe.get_all("Machine" , filters = {'machine_type': d.machine_type})
+			if nos_list:
+				nos = len(nos_list)
+				d.booked = ((booked/60)/nos)/22.50
+				if d.booked and d.total_working_days:
+					d.percentage=(d.booked/d.total_working_days)*100
 
 	@frappe.whitelist()
 	def calculating_total_weight(self,child_table ,total_field):

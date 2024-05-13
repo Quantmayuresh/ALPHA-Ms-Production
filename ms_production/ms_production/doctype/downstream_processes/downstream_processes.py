@@ -232,7 +232,7 @@ class DownstreamProcesses(Document):
 						}
 					)
 
-			if raw_items:	
+			if se.items:	
 				se.insert()
 				se.save()
 				se.submit()

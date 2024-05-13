@@ -66,7 +66,7 @@ frappe.ui.form.on('Machine Shop Rejection Analysis', {
 			});
      } 
 });
-
+  
 frappe.ui.form.on('Machine Shop Rejection Analysis', {
     setup: function(frm) {
             frappe.call({

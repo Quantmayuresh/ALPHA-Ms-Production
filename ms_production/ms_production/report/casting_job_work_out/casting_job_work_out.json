@@ -1,0 +1,58 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2024-04-27 14:22:13.662693",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "PHADKE ENGINEERS PVT LTD",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "mandatory": 1,
+   "options": "Company",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "options": "",
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "",
+ "modified": "2024-05-06 15:13:13.514113",
+ "modified_by": "Administrator",
+ "module": "Ms Production",
+ "name": "Casting Job Work Out",
+ "owner": "mayuresh.bhosale@erpdata.in",
+ "prepared_report": 0,
+ "query": "select \n    j.name 'Out Challan No',\n    j.customer 'Customer ID', \n    j.customer_name 'Customer Name', \n    ri.challan_reference 'In Challan No', \n    ri.item_name 'Item Name', \n    ri.as_it_is 'As It Is', \n    (SUM(ri.as_it_is) * x.value_per_unit) AS 'As It Is Weight:Float:90',\n    ri.cr_rejection 'CR Rejection', \n    (SUM(ri.cr_rejection) * x.value_per_unit) AS 'CR Rejection Weight:Float:90',\n    ri.mr_rejection 'MR Rejection', \n        (SUM(ri.mr_rejection) * x.value_per_unit) AS 'MR Rejection Weight:Float:90',\n    ri.other_rejection 'Other Rejection', \n        (SUM(ri.other_rejection) * x.value_per_unit) AS 'Other Rejection Weight:Float:90',\n    ri.return_quantity 'Return Quantity', \n        (SUM(ri.return_quantity) * x.value_per_unit) AS 'Return Quantity Weight:Float:90',\n    ri.total_quantity 'Total Quantity',\n        (SUM(ri.total_quantity) * x.value_per_unit) AS 'Total Quantity Weight:Float:90',\n    j.company 'Company'\nFROM\n    `tabJob Work Receipt` j\nLEFT JOIN\n    `tabReturn Job Work Receipt Item` ri ON j.name = ri.parent\n\nLEFT JOIN\n        (select \n            rec.parent 'parent', \n            i.name, \n            pu.value_per_unit \n            # AS 'Value Per Unit'\n        FROM\n            `tabItem` i\n        LEFT JOIN \n            `tabProduction UOM Definition` pu ON i.name = pu.parent\n        LEFT JOIN\n            `tabReturn Job Work Receipt Item` rec ON i.name = rec.item_code) x ON j.name = x.parent AND ri.item_code = x.name\n            \nWHERE\n    j.docstatus = '1'\n    AND j.is_return = '1'\n    AND j.posting_date BETWEEN %(from_date)s AND %(to_date)s\n    AND j.company = %(company)s\nGROUP BY\n    j.customer, \n    j.customer_name, \n    ri.challan_reference, \n    ri.item_name",
+ "ref_doctype": "Job Work Receipt",
+ "reference_report": "",
+ "report_name": "Casting Job Work Out",
+ "report_script": "",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}
