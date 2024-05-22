@@ -16,6 +16,7 @@ class JobWorkReceipt(Document):
 		else:
 			self.validate_items()
 			self.calculating_total_inword()
+			self.update_raw_list("raw_items","required_qty")
 
 	@frappe.whitelist()
 	def before_submit(self):
@@ -24,6 +25,7 @@ class JobWorkReceipt(Document):
 			self.in_delivery_note()
 		else:
 			self.in_material_receipt()
+			self.update_raw_list("items","qty")
 
 		self.set_naming_data()
 
@@ -293,3 +295,7 @@ class JobWorkReceipt(Document):
 			field_data = i.get(total_field)
 			total_pouring_weight = getVal(total_pouring_weight) + getVal(field_data)
 		return total_pouring_weight
+
+	def update_raw_list(self, child_table, field):
+		for i in self.get(child_table , filters= {field: 0}):
+			self.get(child_table).remove(i)

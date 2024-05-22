@@ -42,15 +42,15 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "Finished_Item",
-			"fieldtype": "Float",
+			"fieldtype": "Link",
 			"label": "Finished Item",
-			# "options": "Item Rejection Reason",
+			"options": "Item",
 		},
 		{
 			"fieldname": "Finished_Item_Name",
-			"fieldtype": "float",
+			"fieldtype": "Link",
 			"label": "Finished Item Name",
-			# "options": "Item Rejection Reason",
+			"options": "Item",
 		},
 		{
 			"fieldname": "QTY",

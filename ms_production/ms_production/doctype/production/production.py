@@ -312,11 +312,12 @@ class Production(Document):
 		for i in self.get('downtime_reason_details'):
 			downtime_time=downtime_time+i.time
 		
-		total = getVal(self.total_earned_minutes)
+		total = round(getVal(self.total_earned_minutes),3)
 		current_time_diff= getVal(self.time_difference)
 		shift_time = getVal(self.required_time)
 		if(current_time_diff<0):
 				frappe.throw("Time diffrence is negetive!.You can not work more minutes than shit minutes")
+		# frappe.throw(str(total)+'=======' + str(downtime_time)+'======'+str(shift_time))
 		if(total+downtime_time<shift_time):
 				frappe.throw("Mention down time reasons.")
 		

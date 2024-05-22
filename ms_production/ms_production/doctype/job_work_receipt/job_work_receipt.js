@@ -104,7 +104,7 @@ frappe.ui.form.on("Job Work Receipt", {
             
             return {
                 filters: 
-                    [["Warehouse", "company", '=', frm.doc.company]]//'rejection_type': d.rejection_type
+                    [["Warehouse", "company", '=', frm.doc.company],["Warehouse", "is_group", '=', 0]]//'rejection_type': d.rejection_type
                 
             };
         });
@@ -114,7 +114,7 @@ frappe.ui.form.on("Job Work Receipt", {
             
             return {
                 filters: 
-                    [["Warehouse", "company", '=', frm.doc.company] ]//'rejection_type': d.rejection_type
+                    [["Warehouse", "company", '=', frm.doc.company],["Warehouse", "is_group", '=', 0]]//'rejection_type': d.rejection_type
                 
             };
         });
@@ -126,8 +126,7 @@ frappe.ui.form.on("Job Work Receipt", {
         frm.set_query("set_warehouse", function () { // Replace with the name of the link field
             return {
                 filters: [
-                    ["Warehouse", "company", '=', frm.doc.company] ,// Replace with your actual filter criteria
-                    
+                    ["Warehouse", "company", '=', frm.doc.company] ,["Warehouse", "is_group", '=', 0]// Replace with your actual filter criteria
                 ]
             };
         });
@@ -135,7 +134,7 @@ frappe.ui.form.on("Job Work Receipt", {
         frm.set_query("set_from_warehouse", function () { // Replace with the name of the link field
             return {
                 filters: [
-                    ["Warehouse", "company", '=', frm.doc.company] ,// Replace with your actual filter criteria
+                    ["Warehouse", "company", '=', frm.doc.company] ,["Warehouse", "is_group", '=', 0]// Replace with your actual filter criteria
                     
                 ]
             };
