@@ -198,7 +198,7 @@ def get_data(filters):
 			temp="Closing Balance In "+str(uom)
 			item_dict[temp]=get_uom_qty(i,item_dict['closing_bal'],uom)
 
-		item_dict['bal_avl_for_prod'] = (item_dict['opening_stock'] + item_dict['purchase_inward'] + item_dict['job_work_inward']) - (item_dict['total_rejection']+ item_dict['delivery_qty'])
+		item_dict['bal_avl_for_prod'] = (item_dict['opening_stock'] + item_dict['purchase_inward'] + item_dict['job_work_inward']) - (item_dict['total_rejection'])
 		item_dict["Balance Available For Production In "+str(uom)]=get_uom_qty(i,item_dict['bal_avl_for_prod'],uom)
 
 

@@ -9,6 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "company",
+  "column_break_lrtpc",
+  "is_break_down_reason",
+  "section_break_t3cqx",
   "reason"
  ],
  "fields": [
@@ -22,11 +25,26 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
+  },
+  {
+   "fieldname": "column_break_lrtpc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "For OEE Calculation",
+   "fieldname": "is_break_down_reason",
+   "fieldtype": "Check",
+   "label": "Is Break Down Reason"
+  },
+  {
+   "fieldname": "section_break_t3cqx",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-03 14:21:53.781301",
+ "modified": "2024-05-28 10:45:30.544617",
  "modified_by": "Administrator",
  "module": "Ms Production",
  "name": "Reason",

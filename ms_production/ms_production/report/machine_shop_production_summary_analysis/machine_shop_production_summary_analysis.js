@@ -3,8 +3,6 @@
 /* eslint-disable */
 
 
-
-
 frappe.query_reports["Machine Shop Production Summary Analysis"] = {
 	"filters": [
         {

@@ -8,7 +8,7 @@
  "doctype": "Report",
  "filters": [
   {
-   "default": "ALPHA FOUNDERS PVT LTD",
+   "default": "PHADKE ENGINEERS PVT LTD",
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -38,7 +38,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "",
- "modified": "2024-05-07 18:11:05.074617",
+ "modified": "2024-05-24 12:51:19.777492",
  "modified_by": "Administrator",
  "module": "Ms Production",
  "name": "Machineshop Production Report",

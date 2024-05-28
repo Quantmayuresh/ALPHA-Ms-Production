@@ -13,6 +13,7 @@ class JobWorkReceipt(Document):
 	def before_save(self):
 		if self.is_return:
 			self.calculating_total_return()
+			self.validate_return()
 		else:
 			self.validate_items()
 			self.calculating_total_inword()
@@ -180,6 +181,14 @@ class JobWorkReceipt(Document):
 				frappe.throw(f'Total Quantity For Item {j.item_code}-{j.item_name} is Should Not Be Greater Than Actual Required Quantity ')
 		self.set_dat_in_raw_return_items_reasons()
 		self.calculating_total_return()
+
+
+	@frappe.whitelist()
+	def validate_return(self):
+		for j in self.get("return_items"):
+			j.total_quantity = getVal(j.as_it_is) + getVal(j.cr_rejection) + getVal(j.mr_rejection) + getVal(j.other_rejection) + getVal(j.return_quantity)
+			if getVal(j.total_quantity) > getVal(j.returnable_quantity):
+				frappe.throw(f'Total Quantity For Item {j.item_code}-{j.item_name} is Should Not Be Greater Than Actual Required Quantity ')
 
 	@frappe.whitelist()
 	def set_dat_in_raw_return_items_reasons(self):
