@@ -30,7 +30,7 @@ frappe.ui.form.on('Machine Shop Rejection Analysis', {
         frm.refresh_table("rejection_details");
     }
 });
-
+ 
 frappe.ui.form.on('Machine Shop Rejection Details', {
 	is_scrap: function(frm) {     
 		frm.call({

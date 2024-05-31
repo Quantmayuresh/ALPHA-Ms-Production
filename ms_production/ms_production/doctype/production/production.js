@@ -635,4 +635,3 @@ frappe.ui.form.on('Downtime Reason Details', {
 	
 	
 });
-

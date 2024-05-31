@@ -9,6 +9,10 @@ import json
 def getVal(val):
         return val if val is not None else 0
 
+def get_available_quantity(item_code, warehouse):
+		result = frappe.get_value("Bin",{"item_code": item_code,"warehouse": warehouse}, "actual_qty")
+		return result if result else 0
+
 class Production(Document):
 	stock_entries = []
 	@frappe.whitelist()
@@ -136,11 +140,83 @@ class Production(Document):
 					)
 
 
-			stock_entry = frappe.get_doc({"doctype": "Stock Entry","stock_entry_type": "Manufacture","set_posting_time":True ,'posting_date':self.date,'posting_time':self.posting_time,"items": items,"additional_costs":additional_costs,"production_entry": self.name,"company":self.company,})
+			stock_entry = frappe.get_doc(
+									{
+										"doctype": "Stock Entry",
+										"stock_entry_type": "Manufacture",
+										"set_posting_time": True,
+										"posting_date": self.date,
+										"posting_time": self.posting_time,
+										"items": items,
+										"additional_costs": additional_costs,
+										"production_entry": self.name,
+										"company": self.company,
+									}
+								)
 		
 
 			stock_entry.insert()
 			stock_entry.submit()
+
+
+	def updated_create_manufacture_stock_entry(self):
+
+		expense_account =frappe.get_value("Machine Shop Setting",self.company,"expense_account_for_wages")
+
+		for i in self.get('items'):
+			item_name = i.item
+			for k in self.get('qty_details'):
+				doc = frappe.new_doc("Stock Entry")
+				doc.stock_entry_type = "Manufacture"
+				doc.set_posting_time = True
+				doc.posting_date = self.date
+				doc.posting_time = self.posting_time
+				doc.company = self.company
+
+				doc.append("items",
+							{
+							"item_code" : k.raw_material,
+							"qty" : k.ok_qty,
+							"s_warehouse": k.source_warehouse,
+							},)
+				
+				doc.append("items",
+							{
+							"item_code": i.item,
+							"qty":  k.ok_qty,
+							"t_warehouse": k.target_warehouse,
+							'is_finished_item':1
+							},)
+
+				if k.item == i.item:
+					boring_item_code =frappe.get_value('Material Cycle Time',{'item':i.item ,'company':self.company} ,'boring_item_code')
+					target_warehouse =frappe.get_value('Material Cycle Time',{'item':i.item ,'company':self.company} ,'target_warehouse')
+					if boring_item_code and k.boring:
+						doc.append("items",
+											{
+											"item_code": boring_item_code,
+											"qty": k.boring *k.ok_qty,
+											"t_warehouse": target_warehouse if target_warehouse else i.target_warehouse,
+											'is_scrap_item':1
+											},)
+
+				for s in self.get("production_additional_cost_details" , filters = {'finished_item_code': i.item ,'operation':k.operation}):
+					if (expense_account or s.expense_head_account) and s.amount :
+						doc.append('additional_costs',
+							{
+							"expense_account": s.expense_head_account if s.expense_head_account else expense_account,
+							"description":  s.discription ,
+							"amount": s.amount,
+							}
+						)
+				
+				doc.production_entry = self.name
+				doc.save()
+				doc.submit()
+
+
+
+
 
 	@frappe.whitelist()
 	def set_warehouse_in_item(self):
@@ -194,23 +270,40 @@ class Production(Document):
 		if(itemOperations[index-1].operation!=None and itemOperations[index-1].machine!= None and itemOperations[index-1].cycle_time!=None and itemOperations[index-1].cycle_time!=0):
 			for ind in range(len(qty_items)):
 				if(index-1==ind):
+					doc  = frappe.get_doc("Material Cycle Time",{'item':itemOperations[ind].item ,'company':self.company})
+					for data in doc.get('machine_operation_plan'):
+						if data.operation == itemOperations[ind].operation:
+							source,target,raw = data.source_warehouse, data.target_warehouse, data.raw_material
 					self.append("qty_details",{
 						'operation': itemOperations[ind].operation,
 						'cycle_time':  itemOperations[ind].cycle_time,
 						'item': itemOperations[ind].item,
 						'machine': itemOperations[index-1].machine,
 						'boring':itemOperations[index-1].boring,
-
+						'source_warehouse': source,
+						'target_warehouse': target,
+						'raw_material': raw,
+						'posting_date': self.date,
+						'available_quantity': get_available_quantity(raw, source)
 					},)
 				else:
 					self.append("qty_details",qty_items[ind])
 			if(len(qty_items)<index):
+				doc  = frappe.get_doc("Material Cycle Time",{'item':itemOperations[index-1].item , 'company':self.company})
+				for data in doc.get('machine_operation_plan'):
+					if data.operation == itemOperations[index-1].operation:
+						source,target,raw = data.source_warehouse, data.target_warehouse, data.raw_material
 				self.append("qty_details",{
 					'operation': itemOperations[index-1].operation,
 					'cycle_time':  itemOperations[index-1].cycle_time,
 					'item': itemOperations[index-1].item,
 					'machine': itemOperations[index-1].machine,
 					'boring': itemOperations[index-1].boring,
+					'source_warehouse': source,
+					'target_warehouse': target,
+					'raw_material': raw ,
+					'posting_date': self.date,
+					"available_quantity": get_available_quantity(raw, source)
 				},),
 
 	@frappe.whitelist()
@@ -370,7 +463,7 @@ class Production(Document):
 
     	# pass
 	def on_submit(self):
-		self.create_manufacture_stock_entry()
+		self.updated_create_manufacture_stock_entry()
 		self.create_transfer_stock_entry()
 		
 		pass
@@ -690,6 +783,7 @@ class Production(Document):
 																		'discription':(f'{d.item}-{d.item_name} of Operation {i.operation}-{i.operation_name} Wages Cost'),
 																		'expense_head_account': expense_account,
 																		'amount': j.wages_per_item,
+																		'operation': i.operation
 																	},),
 
 					self.append("production_additional_cost_details",{
@@ -697,6 +791,7 @@ class Production(Document):
 																		'discription':(f'{d.item}-{d.item_name} of Operation {i.operation}-{i.operation_name} Operation cost'),
 																		'expense_head_account': expense_account,
 																		'amount': getVal(j.ok_qty) * getVal(i.operation_rate),
+																		'operation': i.operation
 																	},),
 
 	
