@@ -114,7 +114,7 @@ def get_columns():
   		{
 			"label": _("Earned Min"),
 	        	"fieldname": "earned_min",
-	          	"fieldtype": "Int",
+	          	"fieldtype": "Float",
 	           	"width": 150
 	        },
 

@@ -14,15 +14,17 @@ frappe.query_reports["Downstream Process Analysis"] = {
         {
             "fieldname": "from_date",
             "fieldtype": "Date",
-            "label": "From Date",
-			"reqd" : 1
-        },   
+            "label": __("From Date"),
+            "reqd": 1,
+            "default": frappe.datetime.add_months(frappe.datetime.get_today(), -1)
+        },
         {
             "fieldname": "to_date",
             "fieldtype": "Date",
-            "label": "To Date",
-			"reqd" : 1
-        },
+            "label": __("To Date"),
+            "reqd": 1,
+            "default": frappe.datetime.get_today()
+        }, 
 		// {
         //     "fieldname": "item",
         //     "fieldtype" : "Link",

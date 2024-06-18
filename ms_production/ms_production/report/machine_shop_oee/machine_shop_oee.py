@@ -32,22 +32,26 @@ def get_column():
 			{
 			"fieldname": "availability",
 			"fieldtype": "Float",
-			"label": "Availability",
+			"label": "Availability (%)",
+			'precision': 2
 			},
 			{
 			"fieldname": "performance",
 			"fieldtype": "Float",
-			"label": "Performance",
+			"label": "Performance (%)",
+			'precision': 2
 			},
 			{
 			"fieldname": "quality",
 			"fieldtype": "Float",
-			"label": "Quality",
+			"label": "Quality (%)",
+			'precision': 2
 			},
 			{
 			"fieldname": "oee",
 			"fieldtype": "Float",
-			"label": "OEE",
+			"label": "OEE (%)",
+			'precision': 2
 			},
 	]
 
@@ -95,7 +99,7 @@ def get_data(filters):
 		doc_elemet_item["availability"]=available
 		doc_elemet_item["performance"]=performance
 		doc_elemet_item["quality"]=qty
-		doc_elemet_item["oee"]=available*performance*qty
+		doc_elemet_item["oee"]= ( available * performance * qty ) / 10000
 		report_data_li.append(doc_elemet_item)	
 	return report_data_li
 
@@ -115,7 +119,7 @@ def get_availability(machinde_id,from_date,to_date):
 	for i in production_li:
 		flag=True
 		flag1=True
-		downtime_reason_doc=frappe.get_all("Downtime Reason Details",{"parent":i.name,"machine":machinde_id},["time"])
+		downtime_reason_doc=frappe.get_all("Downtime Reason Details",{"parent":i.name,"machine":machinde_id , 'is_break_down_reason': 1},["time"])
 		for j in downtime_reason_doc:
 			stop_time+=j.time
    
@@ -146,6 +150,8 @@ def get_availability(machinde_id,from_date,to_date):
 	
 	if(planned_production_time):
 		availability=((run_time/planned_production_time)*100)
+
+	# frappe.msgprint(str(machinde_id)+'====='+str(planned_production_time) + '====='+ str(stop_time) + '====='+str(run_time))
  
 	return availability,quality,perofrmance
 	

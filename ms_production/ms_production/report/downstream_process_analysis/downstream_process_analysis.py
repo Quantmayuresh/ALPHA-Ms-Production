@@ -53,6 +53,18 @@ def get_columns():
 			"width":200
 		},
 		{
+			"fieldname" : "Source_Warehouse",
+			"fieldtype" : "Link",
+			"options": "Warehouse",
+			"label" : "Source Warehouse"
+		},
+		{
+			"fieldname" : "Target_Warehouse",
+			"fieldtype" : "Link",
+			"options": "Warehouse",
+			"label" : "Target_Warehouse"
+		},
+		{
 			"fieldname" : "ok_qty",
 			"fieldtype" : "Float",
 			"label" : "OK Quantity",
@@ -120,6 +132,8 @@ def get_data(filters):
 						dp.downstream_process 'downstream_process',
 						dq.item 'item',
 						d.item_name 'item_name',
+						r.source_warehouse 'Source_Warehouse',
+						d.target_warehouse 'Target_Warehouse',
 						SUM(dq.ok_qty) 'ok_qty',
 						SUM(dq.cr_qty) 'cr_qty',
 						SUM(dq.mr_qty) 'mr_qty',
@@ -131,8 +145,11 @@ def get_data(filters):
 						`tabDownstream Qty Details` dq ON dp.name = dq.parent
 					LEFT JOIN
 						`tabDownstream Items Production` d ON dq.item = d.item and dp.name = d.parent
+					LEFT JOIN
+					    `tabDownstream Raw Items Production` r ON dq.item = r.item and dp.name = r.parent
 					WHERE
 						dp.company = %s AND DATE(dp.date) BETWEEN %s AND %s AND dp.docstatus = 1					
+
 				"""
 	if sup_name:
 		add_condition(conditions, params, "dp.supervisor = %s", sup_name)
@@ -146,7 +163,7 @@ def get_data(filters):
 	if conditions:
 		sql_query += " AND " + " AND ".join(conditions)
 
-	sql_query += "GROUP BY dp.name, dp.date, dp.company, dp.supervisor, dp.supervisor_name, dp.downstream_process, dq.item, d.item_name"
+	sql_query += "GROUP BY dp.name, dp.date, dp.company, dp.supervisor, dp.supervisor_name, dp.downstream_process, dq.item, d.item_name,r.source_warehouse, d.target_warehouse"
 
 	data = frappe.db.sql(sql_query, tuple(params), as_dict=True)
 	return data

@@ -3,9 +3,12 @@
 from frappe.query_builder.functions import Coalesce, CombineDatetime
 import frappe
 import calendar
-from datetime import datetime
+from datetime import datetime , timedelta
 from frappe import _
 from frappe.desk.query_report import run
+import frappe
+
+from erpnext.stock.report.stock_balance.stock_balance import execute as stock_balance
 
 
 
@@ -123,8 +126,10 @@ def get_data(filters):
 		item_dict['item_code']=i
   
 		item_dict['item_name']=frappe.get_value('Item', i ,'item_name')
+
+		close_bal , open_bal = get_closing_balance(i,filters)
   
-		item_dict['opening_stock']=get_all_available_quantity(i,filters)
+		item_dict['opening_stock'] = open_bal
   
 		if uom_status:
 			temp="Opening Stock In "+str(uom)
@@ -193,12 +198,12 @@ def get_data(filters):
 			temp="Purchase Inward In "+str(uom)
 			item_dict[temp]=get_uom_qty(i,item_dict['purchase_inward'],uom)
    
-		item_dict['closing_bal']=get_closing_balance(i,filters)
+		item_dict['closing_bal']= close_bal
 		if uom_status:
 			temp="Closing Balance In "+str(uom)
 			item_dict[temp]=get_uom_qty(i,item_dict['closing_bal'],uom)
 
-		item_dict['bal_avl_for_prod'] = (item_dict['opening_stock'] + item_dict['purchase_inward'] + item_dict['job_work_inward']) - (item_dict['total_rejection'])
+		item_dict['bal_avl_for_prod'] = (item_dict['opening_stock'] + item_dict['purchase_inward'] + item_dict['job_work_inward']) - (item_dict['total_rejection'] + item_dict['total_qty'])
 		item_dict["Balance Available For Production In "+str(uom)]=get_uom_qty(i,item_dict['bal_avl_for_prod'],uom)
 
 
@@ -291,36 +296,54 @@ def get_all_available_quantity(item_code, filters):
 
 def get_closing_balance(item_code, filters):
 	from_date, to_date = get_month_dates(int(filters.get('year')), filters.get('month'))
+	# to_date = to_date + timedelta(days=1)
+	{'season': '2023-2024', 'area': 'Cane Registaration Area'}
+
 	company_name = filters.get('company')
+	stock_balance_filters = {'company': str(company_name) , 'from_date': str(from_date) , 'to_date' : str(to_date) ,'item_code': str(item_code)}
+	value_col ,  value_data = stock_balance(filters=frappe._dict({
+																		"company": str(company_name),
+																		"from_date": str(from_date),
+																		"to_date": str(to_date),
+																		"item_code": str(item_code),
+																}))
+	close_bal , open_bal = 0 ,0
+	for d in value_data:
+		close_bal = close_bal + d.bal_qty
+		open_bal = open_bal + d.opening_qty
 
-	fiscal_year = frappe.db.sql("""
-		SELECT name 
-		FROM `tabFiscal Year`
-		ORDER BY creation ASC
-		LIMIT 1
-	""", as_dict=True)
+	# frappe.throw(str(close_bal)+str(open_bal))
+	# fiscal_year = frappe.db.sql("""
+	# 	SELECT name 
+	# 	FROM `tabFiscal Year`
+	# 	ORDER BY creation ASC
+	# 	LIMIT 1
+	# """, as_dict=True)
 
-	warehouse_list = frappe.db.sql("""
-		SELECT name FROM `tabWarehouse` WHERE company="{0}"
-	""".format(company_name), as_dict=True)
+	# warehouse_list = frappe.db.sql("""
+	# 	SELECT name FROM `tabWarehouse` WHERE company="{0}"
+	# """.format(company_name), as_dict=True)
 
-	closing_sum = 0
-	for warehouse in warehouse_list:
-		closing_bal=frappe.db.sql("""
-								SELECT qty_after_transaction 
-								FROM `tabStock Ledger Entry` 
-								WHERE posting_date < '{0}' 
-									AND warehouse = '{1}' 
-									AND item_code = '{2}' 
-									AND fiscal_year = '{3}' 
-									AND company = '{4}' 
-									AND is_cancelled='{5}'
-								ORDER BY creation DESC 
-								LIMIT 1
-								""".format(to_date,warehouse.name,item_code,fiscal_year[0].name,company_name,False),as_dict=True)
-		if closing_bal:
-			closing_sum += closing_bal[0].qty_after_transaction
-	return closing_sum
+	# closing_sum = 0
+	# for warehouse in warehouse_list:
+	# 	closing_bal=frappe.db.sql("""
+	# 							SELECT qty_after_transaction 
+	# 							FROM `tabStock Ledger Entry` 
+	# 							WHERE posting_date < '{0}' 
+	# 								AND warehouse = '{1}' 
+	# 								AND item_code = '{2}' 
+	# 								AND fiscal_year = '{3}' 
+	# 								AND company = '{4}' 
+	# 								AND is_cancelled='{5}'
+	# 							ORDER BY creation DESC 
+	# 							LIMIT 1
+	# 							""".format(to_date,warehouse.name,item_code,fiscal_year[0].name,company_name,False),as_dict=True)
+	# 	if closing_bal:
+	# 		closing_sum += closing_bal[0].qty_after_transaction
+	# 		frappe.msgprint(str(closing_bal))
+
+	
+	return close_bal , open_bal
 
 
 

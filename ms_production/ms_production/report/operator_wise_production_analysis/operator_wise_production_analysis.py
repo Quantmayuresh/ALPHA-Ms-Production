@@ -106,7 +106,7 @@ def get_columns(filters):
                  {
 			'fieldname': "Earned_Hours",
 			'fieldtype': "Float",
-			'label': "Earned Qty",
+			'label': "Earned Hours",
 		},
                  {
 			'fieldname': "Efficiency",

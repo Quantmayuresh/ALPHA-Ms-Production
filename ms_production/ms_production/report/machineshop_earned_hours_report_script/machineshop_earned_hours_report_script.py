@@ -49,9 +49,9 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "Machine",
-			"fieldtype": "Float",
+			"fieldtype": "Data",
 			"label": "Machine",
-			"options": "Qty Details",
+			# "options": "Qty Details",
 		},
 		{
 			"fieldname": "Earned_Hours",
@@ -72,7 +72,7 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "OK_Weight",
-			"fieldtype": "Data",
+			"fieldtype": "Float",
 			"label": "OK Weight",
 		},
 		{
@@ -83,7 +83,7 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "CR_Weight",
-			"fieldtype": "Data",
+			"fieldtype": "Float",
 			"label": "CR Weight",
 		},
 				{
@@ -94,7 +94,7 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "MR_Weight",
-			"fieldtype": "Data",
+			"fieldtype": "Float",
 			"label": "MR Weight",
 		},
 				{
@@ -105,7 +105,7 @@ def get_columns(filters):
 		},
 		{
 			"fieldname": "RW_Weight",
-			"fieldtype": "Data",
+			"fieldtype": "Float",
 			"label": "RW Weight",
 		},
 		{

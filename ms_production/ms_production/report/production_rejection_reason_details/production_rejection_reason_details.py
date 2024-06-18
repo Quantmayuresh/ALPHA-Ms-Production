@@ -55,13 +55,13 @@ def get_columns(filters):
 		{
 			"fieldname": "QTY",
 			"fieldtype": "Float",
-			"label": "QTY",
+			"label": "Rejection QTY",
 			# "options": "Item Rejection Reason",
 		},
 		{
 			"fieldname": "Total_Qty",
 			"fieldtype": "Float",
-			"label": "Production Qty",
+			"label": "Total Production Qty",
 		},
 		{
 			"fieldname": "Rejection_Percentage",
